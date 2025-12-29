@@ -15,7 +15,7 @@ pkg update -y && pkg upgrade -y
 
 # 2. Install dependencies
 echo -e "${GREEN}[2/7] Menginstall dependencies (Node.js, Python, Git, dll)...${NC}"
-pkg install nodejs python make clang build-essential git python-pip -y
+pkg install nodejs python make clang build-essential git python-pip termux-tools -y
 
 # 3. Clone Repository
 echo -e "${GREEN}[3/7] Cloning GrowServer...${NC}"
@@ -36,7 +36,17 @@ node patcher.js
 
 # 5. Install PNPM
 echo -e "${GREEN}[5/7] Menginstall pnpm...${NC}"
-npm install -g pnpm
+# Use corepack if available, otherwise npm
+if command -v corepack &> /dev/null; then
+    corepack enable
+    corepack prepare pnpm@latest --activate
+else
+    npm install -g pnpm
+    # Fix shebang for Termux
+    if command -v termux-fix-shebang &> /dev/null; then
+        termux-fix-shebang $(which pnpm)
+    fi
+fi
 
 # 6. Install Project Dependencies & Build
 echo -e "${GREEN}[6/7] Menginstall project dependencies & Building...${NC}"

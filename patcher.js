@@ -51,8 +51,8 @@ export const players = sqliteTable("players", {
   clothing: text("clothing"),
   inventory: text("inventory"),
   last_visited_worlds: text("last_visited_worlds"),
-  created_at: text("created_at").default(sql\`(current_timestamp)\`),
-  updated_at: text("updated_at").default(sql\`(current_timestamp)\`),
+  created_at: text("created_at").default(sql`(current_timestamp)`),
+  updated_at: text("updated_at").default(sql`(current_timestamp)`),
   heart_monitors: text("heart_monitors").notNull(),
 });
 
@@ -74,8 +74,8 @@ export const worlds = sqliteTable("worlds", {
   blocks: text("blocks"),
   dropped: text("dropped"),
   weather_id: integer("weather_id").default(41),
-  created_at: text("created_at").default(sql\`(current_timestamp)\`),
-  updated_at: text("updated_at").default(sql\`(current_timestamp)\`),
+  created_at: text("created_at").default(sql`(current_timestamp)`),
+  updated_at: text("updated_at").default(sql`(current_timestamp)`),
   worldlock_index: integer("worldlock_index"),
 });
 
@@ -164,7 +164,7 @@ export class PlayerDB {
 
   public async has(name: string) {
     const res = await this.db
-      .select({ count: sql\`count(*)\` })
+      .select({ count: sql`count(*)` })
       .from(players)
       .where(like(players.name, name))
       .limit(1)
@@ -241,7 +241,7 @@ export class WorldDB {
 
   public async has(name: string) {
     const res = await this.db
-      .select({ count: sql\`count(*)\` })
+      .select({ count: sql`count(*)` })
       .from(worlds)
       .where(eq(worlds.name, name))
       .limit(1)
@@ -306,7 +306,7 @@ writeFile('packages/db/handlers/Player.ts', playerHandler);
 writeFile('packages/db/handlers/World.ts', worldHandler);
 
 // 5. Update Seeds
-const seedsTs = \`"use strict";
+const seedsTs = `"use strict";
 
 import { players } from "../";
 import { drizzle } from "drizzle-orm/better-sqlite3";
@@ -403,7 +403,7 @@ export async function setupSeeds() {
     .onConflictDoNothing()
     .run();
 }
-\`;
+`;
 writeFile('packages/db/scripts/seeds.ts', seedsTs);
 
 // 6. Update Configs
