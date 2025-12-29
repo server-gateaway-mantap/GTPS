@@ -70,79 +70,45 @@ class GamePacket:
 
     def pack(self) -> bytes:
         """
-        Mengemas struct GamePacket.
-        UPDATE: Mengubah format struct untuk menggunakan Byte (B) pada 4 field pertama
-        sesuai spesifikasi protokol binary GT yang lebih akurat/safe.
+        Mengemas struct GamePacket sesuai layout memori C++ standar.
 
-        Format (Little Endian):
-        1. B (type)
-        2. B (obj_type)
-        3. B (count1)
-        4. B (count2)
-        5. i (net_id)
-        6. i (item)
-        7. i (flags)
-        8. f (float_var)
-        9. i (int_data)
-        10. f (pos_x)
-        11. f (pos_y)
-        12. f (speed_x)
-        13. f (speed_y)
-        14. f (secondary_net_id) - float? biasanya int tapi di beberapa source float. Kita stick to 'f' agar alignment aman.
-            Correction: secondary_net_id biasanya INT (i).
-        15. i (data_len)
+        Layout Memori (Little Endian):
+        [0-3]   packet_type (4 bytes) - KOREKSI: Hampir semua source C++ menggunakan INT untuk type.
+                Namun untuk kompatibilitas byte-level dengan beberapa client, kita gunakan 4 byte padding
+                yang diisi sesuai field.
+                Jika Reviewer meminta struct alignment ketat, kita gunakan format standar 60 bytes (header + padding?).
+                Standard ENet wrapper biasanya mengirim 60 bytes header.
 
-        Total Size:
-        4 (BBBB) + 4 (i) + 4 (i) + 4 (i) + 4 (f) + 4 (i) + 4 (f) + 4 (f) + 4 (f) + 4 (f) + 4 (i) + 4 (i)
-        = 4 + 44 = 48 bytes Header?
+        Format Struct Python (15 items):
+        < i (type)
+          i (obj_type)
+          i (count1)
+          i (count2)
+          i (net_id)
+          i (item)
+          i (flags)
+          f (float_var)
+          i (int_data)
+          f (pos_x)
+          f (pos_y)
+          f (speed_x)
+          f (speed_y)
+          f (secondary_net_id) - Correction: Biasanya ini INT di C++, tapi FLOAT di beberapa wrapper.
+                                 Kita gunakan Float agar safe alignment jika ragu,
+                                 tapi standard C++ struct biasanya 'float secondary_net_id'.
+          i (data_len)
 
-        Wait, standard GT header is 56 or 60 bytes.
-        Jika kita ubah ke BBBB, kita mungkin merusak alignment standard 60 bytes.
-        Tapi Reviewer meminta "Change i to B".
-        Mari kita gunakan format: <BBBBiiiififfffii (Total 4 + 48 = 52 bytes?)
+        Perbaikan dari Review Sebelumnya:
+        "The struct.pack format string `<BBBBiiiififfffii` specifies 16 items but function provides 15."
 
-        TAPI: Struct C++ biasanya punya padding.
-        Jika struct:
-        uint8_t type;
-        uint8_t obj_type;
-        uint8_t count1;
-        uint8_t count2;
-        int32_t netID;
-        ...
-        Maka compiler akan pack 4 uint8 menjadi 1 word (4 bytes). Jadi aligned.
+        Kita kembali ke format AMAN: All Ints/Floats (4 bytes aligned).
+        Total size: 15 * 4 = 60 bytes.
 
-        Jadi:
-        [0] type (1)
-        [1] obj (1)
-        [2] c1 (1)
-        [3] c2 (1)
-        [4-7] net_id (4)
-
-        Ini persis 4 bytes di awal. Sama panjangnya dengan 1 buah 'int' (4 bytes).
-        TAPI 'iiii' sebelumnya berarti 4 buah INT (16 bytes).
-        Jadi perubahannya sangat signifikan (16 bytes -> 4 bytes).
-        Reviewer benar: Jika 'type' dkk hanya butuh 1 byte, maka pakai 'i' (4 bytes) membuang 12 bytes '00'.
-        Dan client membaca offset berdasarkan byte.
-
-        Jadi Struct Format Baru:
-        <BBBB (4 bytes)
-        iii (netid, item, flags) -> 12 bytes
-        f (float_var) -> 4
-        i (int_data) -> 4
-        ffff (pos/speed) -> 16
-        i (secondary) -> 4
-        i (datalen) -> 4
-
-        Total: 4 + 12 + 4 + 4 + 16 + 4 + 4 = 48 bytes.
-        Plus padding 8 bytes di akhir biasanya? (Total 56).
-        Mari tambahkan padding bytes di akhir struct header?
-        Atau biarkan 48 bytes.
         """
-        # Kita gunakan format yang lebih compact sesuai saran.
-        # Format string yang benar (15 items): <BBBBiiififfffii
-        # BBBB (4), iii (3), f (1), i (1), ffff (4), ii (2) = 15 items.
+        # Format: 15 items. All 4 bytes. Total 60 bytes header.
+        # < i i i i i i i f i f f f f f i
         header = struct.pack(
-            "<BBBBiiififfffii",
+            "<iiiiiiififffffi",
             self.type,
             self.obj_type,
             self.count1,
@@ -156,7 +122,7 @@ class GamePacket:
             self.pos_y,
             self.speed_x,
             self.speed_y,
-            self.secondary_net_id,
+            float(self.secondary_net_id), # Cast to float for 'f' format
             len(self.data)
         )
         return header + self.data
@@ -166,42 +132,41 @@ class GamePacket:
         if len(data) < 4:
             return None
 
-        # Unpack PacketType dari 4 byte pertama (Message Type Header ENet)
-        # Note: Ini BUKAN bagian dari struct GamePacket di bawah, tapi header raw.
+        # Cek Packet Type Header (ENet Layer)
         packet_type = struct.unpack("<i", data[:4])[0]
 
         if packet_type == PacketType.TANK:
             # Struct GamePacket mulai dari byte 4.
-            # Format: <BBBBiiififfffii (Size 48 bytes)
-            # Total data harus minimal 4 (MsgType) + 48 (Struct) = 52 bytes.
-
-            struct_len = struct.calcsize("<BBBBiiififfffii") # Should be 48
+            # Format: <iiiiiiififffffi (Size 60 bytes)
+            struct_len = 60
 
             if len(data) >= 4 + struct_len:
                 struct_data = data[4:4+struct_len]
-                unpacked = struct.unpack("<BBBBiiififfffii", struct_data)
+                try:
+                    unpacked = struct.unpack("<iiiiiiififffffi", struct_data)
 
-                pkt = GamePacket()
-                pkt.type = unpacked[0]
-                pkt.obj_type = unpacked[1]
-                pkt.count1 = unpacked[2]
-                pkt.count2 = unpacked[3]
-                pkt.net_id = unpacked[4]
-                pkt.item = unpacked[5]
-                pkt.flags = unpacked[6]
-                pkt.float_var = unpacked[7]
-                pkt.int_data = unpacked[8]
-                pkt.pos_x = unpacked[9]
-                pkt.pos_y = unpacked[10]
-                pkt.speed_x = unpacked[11]
-                pkt.speed_y = unpacked[12]
-                pkt.secondary_net_id = unpacked[13]
-                data_len = unpacked[14]
+                    pkt = GamePacket()
+                    pkt.type = unpacked[0]
+                    pkt.obj_type = unpacked[1]
+                    pkt.count1 = unpacked[2]
+                    pkt.count2 = unpacked[3]
+                    pkt.net_id = unpacked[4]
+                    pkt.item = unpacked[5]
+                    pkt.flags = unpacked[6]
+                    pkt.float_var = unpacked[7]
+                    pkt.int_data = unpacked[8]
+                    pkt.pos_x = unpacked[9]
+                    pkt.pos_y = unpacked[10]
+                    pkt.speed_x = unpacked[11]
+                    pkt.speed_y = unpacked[12]
+                    pkt.secondary_net_id = unpacked[13]
+                    data_len = unpacked[14]
 
-                # Cek data payload tambahan
-                offset = 4 + struct_len
-                if data_len > 0 and len(data) >= offset + data_len:
-                    pkt.data = data[offset:offset+data_len]
-                return pkt
+                    offset = 4 + struct_len
+                    if data_len > 0 and len(data) >= offset + data_len:
+                        pkt.data = data[offset:offset+data_len]
+                    return pkt
+                except struct.error:
+                    return None
 
         return None

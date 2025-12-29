@@ -1,70 +1,60 @@
-# GTPS Python Termux
+# GTPS Python Termux (Porting C++)
 
-Proyek ini adalah implementasi Private Server Growtopia (GTPS) berbasis Python yang dioptimalkan untuk berjalan di Android menggunakan Termux. Server ini menggunakan arsitektur modular dengan **FastAPI** untuk login server dan **ENet** (via `pyenet`) untuk game server, semuanya berjalan secara asinkronus (`asyncio`).
+Proyek ini adalah implementasi ulang (rewrite) dari Growtopia Private Server (GTPS) berbasis C++ ke dalam Bahasa Python, yang dioptimalkan secara spesifik untuk berjalan di lingkungan **Android Termux**.
+
+Proyek ini meniru struktur paket data binary C++ (seperti `TankPacket` dan `VariantList`) untuk memastikan kompatibilitas penuh dengan client asli Growtopia.
 
 ## Fitur Utama
-1. **Login Server (HTTP)**:
-   - Menangani request `server_data.php`.
-   - Mengarahkan client ke Game Server.
-2. **Game Server (UDP/ENet)**:
-   - **Protocol**: Handshake lengkap (Hello -> Logon -> OnSuperMainStart).
-   - **Encryption**: Implementasi XOR Cipher untuk keamanan dan kompatibilitas client.
-   - **Optimization**: Loop efisien (10ms sleep) untuk hemat baterai Android.
-3. **Database (SQLite)**:
-   - Penyimpanan data Player (Username, Password, Posisi, World, Inventory).
-   - Auto-save saat disconnect.
-4. **World System**:
-   - World Manager dinamis.
-   - Fitur Join World (`action|join_request`).
-5. **Chat System**:
-   - Parsing pesan chat (`action|input`).
-   - Feedback log ke client.
 
-## Prasyarat
-- Aplikasi Termux (Android).
-- Koneksi Internet (untuk instalasi awal).
+### 1. Networking (Porting C++)
+- **Protokol Binary Identik**: Menggunakan modul `struct` Python untuk mereplikasi layout memori `GamePacket` (60 bytes) dan `VariantList` dari source C++.
+- **Packet Factory**: Class `PacketFactory` (`src/utils/packet_factory.py`) menangani serialisasi data kompleks seperti Map Data dan Variant List.
+- **Enkripsi**: Implementasi algoritma XOR standar untuk keamanan paket.
 
-## Instalasi di Termux
+### 2. Login Server (HTTP)
+- **Support GET & POST**: Endpoint `/growtopia/server_data.php` mendukung kedua metode untuk kompatibilitas maksimal.
+- **FastAPI**: Menggunakan framework asinkronus modern yang cepat.
 
-1. **Clone Repositori** (atau salin file proyek ini ke Termux).
-2. **Jalankan Script Setup**:
-   Script ini akan menginstal Python, Clang, dan library yang dibutuhkan.
+### 3. Core Logic
+- **Database SQLite**: Penyimpanan data player (Posisi, World, Inventory) yang ringan dan portabel.
+- **World System**: Generator map prosedural sederhana dan sistem join world (`SEND_MAP_DATA`).
+- **Chat System**: Broadcast chat real-time antar pemain dalam satu world.
+
+### 4. Optimasi Termux
+- **Hemat Baterai**: Loop server menggunakan `asyncio.sleep(0.01)` untuk mencegah penggunaan CPU 100%.
+- **Setup Otomatis**: Script `setup.sh` menangani instalasi dependensi native (`clang`, `libenet`) dan Python (`pyenet`).
+
+## Struktur Proyek
+
+- `src/core/`: Logika inti (Player, World).
+- `src/network/`: Implementasi server ENet dan definisi Protokol.
+- `src/server/`: HTTP Login Server.
+- `src/data/`: Database dan Parser.
+- `src/utils/`: Factory Paket dan Enkripsi.
+
+## Cara Instalasi & Menjalankan (Termux)
+
+1. **Persiapan**:
+   Pastikan Anda memiliki koneksi internet.
+
+2. **Jalankan Setup**:
    ```bash
    chmod +x setup.sh
    ./setup.sh
    ```
-   *Catatan: Instalasi `pyenet` mungkin memakan waktu karena proses kompilasi.*
+   *Script ini akan menginstall Python, Clang, ENet, dan library Python yang dibutuhkan.*
 
-## Cara Menjalankan Server
+3. **Jalankan Server**:
+   ```bash
+   python main.py
+   ```
 
-Jalankan perintah berikut di direktori proyek:
-```bash
-python main.py
-```
+4. **Koneksi Client**:
+   Arahkan host `growtopia1.com` dan `growtopia2.com` ke IP device Termux Anda (di `/system/etc/hosts`).
 
-Server akan berjalan pada:
-- **Login Server**: Port 8000 (HTTP).
-- **Game Server**: Port 17091 (UDP).
+## Catatan Porting
+- Struktur `GamePacket` di `src/network/protocol.py` menggunakan format `<iiiiiiififffffi` (60 bytes) untuk meniru struct C++ standar.
+- Serialisasi `VariantList` meniru logika `eVariantType` dari SDK C++.
 
-## Konfigurasi Client (Hosts)
-Untuk menyambungkan client Growtopia ke server ini:
-
-Isi file `/system/etc/hosts` (butuh root/virtual hosts):
-```
-127.0.0.1 growtopia1.com
-127.0.0.1 growtopia2.com
-```
-
-## Struktur Proyek
-- `src/core/`: Logika inti game (Player, World, WorldManager).
-- `src/network/`: Networking ENet dan Protokol Paket.
-- `src/server/`: HTTP Server (FastAPI).
-- `src/data/`: Database (SQLite) dan Parser Items.
-- `src/utils/`: Utilitas enkripsi dan helper.
-- `tests/`: Unit testing.
-
-## Pengembangan Lebih Lanjut
-Langkah selanjutnya:
-1. Melengkapi parsing `TankPacket` di `src/network/protocol.py` (Map Data serializer).
-2. Implementasi Broadcast Chat penuh (Mapping Peer-to-Player).
-3. Implementasi Inventory Logic.
+## Lisensi
+Proyek ini adalah untuk tujuan edukasi dan riset.

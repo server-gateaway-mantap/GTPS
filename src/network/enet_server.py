@@ -3,6 +3,7 @@ import asyncio
 import logging
 from src.network.protocol import PacketType, GamePacket, TankPacketType
 from src.utils.encryption import PacketUtils
+from src.utils.packet_factory import PacketFactory, VariantType
 from src.data.database import Database
 from src.core.player import Player
 from src.core.world_manager import WorldManager
@@ -149,15 +150,15 @@ class ENetServer:
         # [5] Int: Type
 
         variants = [
-            {'index': 0, 'type': 2, 'value': "OnSuperMainStart"},
-            {'index': 1, 'type': 5, 'value': 12345}, # Items Hash Dummy
-            {'index': 2, 'type': 2, 'value': "uda_url_dummy"},
-            {'index': 3, 'type': 2, 'value': "Welcome to GTPS Python Termux!"},
-            {'index': 4, 'type': 2, 'value': "Guest"},
-            {'index': 5, 'type': 5, 'value': 0},
+            {'index': 0, 'type': VariantType.STRING, 'value': "OnSuperMainStart"},
+            {'index': 1, 'type': VariantType.UINT, 'value': 12345}, # Items Hash Dummy
+            {'index': 2, 'type': VariantType.STRING, 'value': "uda_url_dummy"},
+            {'index': 3, 'type': VariantType.STRING, 'value': "Welcome to GTPS Python Termux!"},
+            {'index': 4, 'type': VariantType.STRING, 'value': "Guest"},
+            {'index': 5, 'type': VariantType.UINT, 'value': 0},
         ]
 
-        packet.data = PacketUtils.pack_variant_list(variants)
+        packet.data = PacketFactory.create_variant_list(variants)
 
         # 3. Pack dan kirim (Tipe 4 + Struct)
         payload = packet.pack()
@@ -206,7 +207,7 @@ class ENetServer:
         # Untuk transisi world, client mengharapkan SEND_MAP_DATA.
 
         # Kirim SEND_MAP_DATA (Packet Type 4, Obj Type 4)
-        map_payload = PacketUtils.create_map_data(world)
+        map_payload = PacketFactory.serialize_map_data(world)
 
         # Buat Map Data Packet
         # Map data dikirim sebagai Tank Packet Type 4 (SEND_MAP_DATA)
@@ -246,16 +247,16 @@ class ENetServer:
         # Kita perlu kirim posisi valid setelah map terload.
         # Gunakan Variant List 'OnSetPos'
         variants = [
-            {'index': 0, 'type': 2, 'value': "OnSetPos"},
-            {'index': 1, 'type': 1, 'value': (world.width // 2 * 32.0)}, # X
-            {'index': 2, 'type': 1, 'value': (world.height // 2 * 32.0)}, # Y
+            {'index': 0, 'type': VariantType.STRING, 'value': "OnSetPos"},
+            {'index': 1, 'type': VariantType.FLOAT, 'value': (world.width // 2 * 32.0)}, # X
+            {'index': 2, 'type': VariantType.FLOAT, 'value': (world.height // 2 * 32.0)}, # Y
         ]
         pos_packet = GamePacket()
         pos_packet.type = TankPacketType.CALL_FUNCTION # Fix type
         pos_packet.obj_type = 0
         pos_packet.net_id = -1
         pos_packet.flags = 8
-        pos_packet.data = PacketUtils.pack_variant_list(variants)
+        pos_packet.data = PacketFactory.create_variant_list(variants)
 
         # Encrypt & Send Position
         pos_payload = PacketUtils.xor_cipher(pos_packet.pack(), key=12345)
@@ -267,15 +268,15 @@ class ENetServer:
     def send_log(self, peer, message):
         """Helper untuk kirim pesan console game (OnConsoleMessage)."""
         variants = [
-            {'index': 0, 'type': 2, 'value': "OnConsoleMessage"},
-            {'index': 1, 'type': 2, 'value': message}
+            {'index': 0, 'type': VariantType.STRING, 'value': "OnConsoleMessage"},
+            {'index': 1, 'type': VariantType.STRING, 'value': message}
         ]
         packet = GamePacket()
         packet.type = TankPacketType.CALL_FUNCTION # Fix type
         packet.obj_type = 0
         packet.net_id = -1
         packet.flags = 8
-        packet.data = PacketUtils.pack_variant_list(variants)
+        packet.data = PacketFactory.create_variant_list(variants)
 
         # Pack
         payload = packet.pack()
