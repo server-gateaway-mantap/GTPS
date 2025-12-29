@@ -70,43 +70,24 @@ class GamePacket:
 
     def pack(self) -> bytes:
         """
-        Mengemas struct GamePacket sesuai layout memori C++ standar.
-
-        Layout Memori (Little Endian):
-        [0-3]   packet_type (4 bytes) - KOREKSI: Hampir semua source C++ menggunakan INT untuk type.
-                Namun untuk kompatibilitas byte-level dengan beberapa client, kita gunakan 4 byte padding
-                yang diisi sesuai field.
-                Jika Reviewer meminta struct alignment ketat, kita gunakan format standar 60 bytes (header + padding?).
-                Standard ENet wrapper biasanya mengirim 60 bytes header.
-
-        Format Struct Python (15 items):
-        < i (type)
-          i (obj_type)
-          i (count1)
-          i (count2)
-          i (net_id)
-          i (item)
-          i (flags)
-          f (float_var)
-          i (int_data)
-          f (pos_x)
-          f (pos_y)
-          f (speed_x)
-          f (speed_y)
-          f (secondary_net_id) - Correction: Biasanya ini INT di C++, tapi FLOAT di beberapa wrapper.
-                                 Kita gunakan Float agar safe alignment jika ragu,
-                                 tapi standard C++ struct biasanya 'float secondary_net_id'.
-          i (data_len)
-
-        Perbaikan dari Review Sebelumnya:
-        "The struct.pack format string `<BBBBiiiififfffii` specifies 16 items but function provides 15."
-
-        Kita kembali ke format AMAN: All Ints/Floats (4 bytes aligned).
-        Total size: 15 * 4 = 60 bytes.
-
+        Mengemas struct GamePacket sesuai standar C++ GTPS (60 bytes header).
+        Format Little Endian (<):
+        i (type)
+        i (obj_type)
+        i (count1)
+        i (count2)
+        i (net_id)
+        i (item)
+        i (flags)
+        f (float_var)
+        i (int_data)
+        f (pos_x)
+        f (pos_y)
+        f (speed_x)
+        f (speed_y)
+        f (secondary_net_id)
+        i (data_len)
         """
-        # Format: 15 items. All 4 bytes. Total 60 bytes header.
-        # < i i i i i i i f i f f f f f i
         header = struct.pack(
             "<iiiiiiififffffi",
             self.type,
@@ -122,7 +103,7 @@ class GamePacket:
             self.pos_y,
             self.speed_x,
             self.speed_y,
-            float(self.secondary_net_id), # Cast to float for 'f' format
+            float(self.secondary_net_id),
             len(self.data)
         )
         return header + self.data
@@ -137,7 +118,6 @@ class GamePacket:
 
         if packet_type == PacketType.TANK:
             # Struct GamePacket mulai dari byte 4.
-            # Format: <iiiiiiififffffi (Size 60 bytes)
             struct_len = 60
 
             if len(data) >= 4 + struct_len:

@@ -78,10 +78,11 @@ class ENetServer:
                     self.handle_join_request(event.peer, text_data)
                 elif "action|input" in text_data: # Chat
                     self.handle_chat(event.peer, text_data)
+                elif "action|enter_game" in text_data:
+                    self.handle_enter_game(event.peer)
 
             elif msg_type == PacketType.TANK: # Game Packet
-                logger.info("Game/Tank packet received")
-                # Implementasi parsing Tank Packet di masa depan
+                self.handle_tank_packet(event.peer, packet_data)
 
         except Exception as e:
             logger.error(f"Error handling packet: {e}")
@@ -311,10 +312,6 @@ class ENetServer:
         full_msg = f"<{sender_name}> {message}"
         logger.info(f"[Chat] {full_msg}")
 
-        # Broadcast ke semua player di world yang sama
-        # Format chat bubble: action|log (atau OnConsoleMessage untuk log, OnTalkBubble untuk bubble)
-        # Kita pakai OnConsoleMessage dulu untuk skeleton.
-
         # Update referensi peer jika belum ada (safety)
         if peer.connectID in self.players:
              self.players[peer.connectID].peer = peer
@@ -325,6 +322,48 @@ class ENetServer:
                     self.send_log(p.peer, full_msg)
                 except Exception as e:
                     logger.error(f"Failed to send chat to {p.name}: {e}")
+
+    def handle_enter_game(self, peer):
+        """Handle action|enter_game - biasanya setelah select world atau startup."""
+        logger.info(f"Player {peer.connectID} entering game...")
+        # Bisa kirim OnRequestWorldSelectMenu di sini jika belum di world
+        pass
+
+    def handle_tank_packet(self, peer, data):
+        """Handle GamePacket (Type 4)."""
+        packet = GamePacket.unpack(data)
+        if not packet:
+            return
+
+        # Contoh: Handle Tile Change (Punch/Place)
+        if packet.type == TankPacketType.TILE_CHANGE_REQUEST:
+            # packet.int_data = Tile ID (jika place) atau 18 (punch)
+            # packet.pos_x, packet.pos_y = koordinat dalam pixel? atau Tile Index?
+            # Biasanya TankPacket TileChangeRequest mengirim:
+            # packet.pos_x = tile_x (int)
+            # packet.pos_y = tile_y (int)
+            # packet.int_data = item ID yang dipakai
+
+            tile_x = int(packet.pos_x)
+            tile_y = int(packet.pos_y)
+            item_id = packet.int_data
+
+            logger.info(f"Tile Change Request: X={tile_x}, Y={tile_y}, Item={item_id}")
+
+            # Logic Punch (Item 18 is Fist/Punch)
+            if item_id == 18:
+                # Kirim visual punch ke player lain
+                self.broadcast_punch(peer, tile_x, tile_y)
+
+            # Logic Drop (biasanya handled via dialog atau action string terpisah, tapi kalau drop via UI game?)
+            # Drop biasanya via action|drop
+
+        elif packet.type == TankPacketType.APP_INTEGRITY_FAIL:
+            pass # Ignore
+
+    def broadcast_punch(self, peer, x, y):
+        # Broadcast visual effect punch ke player lain di world
+        pass
 
     async def start(self):
         self.running = True
