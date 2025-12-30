@@ -1,0 +1,87 @@
+import os
+import socket
+import ssl
+import threading
+import struct
+import binascii
+from flask import Flask, Response, request
+from werkzeug.serving import run_simple
+
+# --- DATA HASIL SCAN BINER KAMU ---
+PORT_LOGIN = 8443
+PORT_GAME = 17091
+VERSION = "5.39"
+ITEMS_DAT = "items.dat"
+META_VAL = "131661873" # CRC32 dari items.dat kamu
+KLV_KEY = ".audio/mp3/theme4.mp3" # Dari offset 0x6dddd2 [cite: 23]
+
+app = Flask(__name__)
+
+# --- 1. PATCH OTOMATIS ITEMS.DAT ---
+def prepare_database():
+    if os.path.exists(ITEMS_DAT):
+        with open(ITEMS_DAT, "r+b") as f:
+            f.seek(0)
+            # Paksa downgrade header ke Versi 19 agar dibaca v5.39
+            f.write(struct.pack("<H", 19))
+        print(f"[*] items.dat dipaksa ke Versi 19 (Support v5.39)")
+
+# --- 2. LOGIN SERVER (FIX STATE 0) ---
+@app.route('/growtopia/server_data.php', methods=['POST', 'GET'])
+def server_data():
+    print(f"\n[HTTPS] Menggunakan Kunci Beta3 (Offset 0x7113ef)")
+
+    # Disusun berdasarkan urutan di offset 0x6dddc2 [cite: 28]
+    response_fields = {
+        "host": "127.0.0.1",
+        "port": str(PORT_GAME),
+        "beta3_maint": "0", # [cite: 48, 53]
+        "beta3_type": "1",  # [cite: 40, 42]
+        "l_port": str(PORT_GAME),
+        "l_host": "127.0.0.1",
+        "meta": META_VAL,
+        "fhash": META_VAL,   #
+        "Version": VERSION,  # 'V' Kapital [cite: 28, 33, 64]
+        "klv": KLV_KEY,      # [cite: 23, 28]
+        "nls": "1",
+        "epp": "1"
+    }
+
+    body = "\n".join([f"{k}|{v}" for k, v in response_fields.items()])
+    body += "\nRTENDMARKERBS1001"
+    return Response(body, mimetype='text/plain')
+
+# --- 3. GAME SERVER (UDP/ENET) ---
+def run_game():
+    print(f"[*] Game Server Siap di Port {PORT_GAME}")
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.bind(("0.0.0.0", PORT_GAME))
+
+    while True:
+        try:
+            data, addr = sock.recvfrom(4096)
+            if data[0] == 1: # ENet Connect
+                sock.sendto(b'\x01\x00\x00\x00', addr)
+                print(f"[UDP] Handshake Sukses: {addr}")
+            elif data[0] == 2: # Login Data
+                print("[UDP] Menerima Login. Mengirim Konfirmasi...")
+                # action|enter_game ditemukan di offset 0x71757e kamu
+                logon = b'\x03\x00\x00\x00' + b"action|logon_confirmed\naccount_id|1\nuser|1\n"
+                sock.sendto(logon, addr)
+
+                with open(ITEMS_DAT, "rb") as f:
+                    content = f.read()
+                header = struct.pack("<IIII", 4, 16, 0, 0) + b'\x00' * 40
+                sock.sendto(header + content, addr)
+                print(f"[OK] items.dat Terkirim!")
+        except Exception as e:
+            print(f"[-] UDP Error: {e}")
+
+if __name__ == "__main__":
+    prepare_database()
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.set_ciphers('ALL:@SECLEVEL=0')
+    if os.path.exists("cert.pem"):
+        context.load_cert_chain("cert.pem", "key.pem")
+        threading.Thread(target=lambda: run_simple("0.0.0.0", PORT_LOGIN, app, ssl_context=context)).start()
+        run_game()

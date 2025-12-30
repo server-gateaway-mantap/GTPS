@@ -1,0 +1,41 @@
+import re
+import os
+
+def deep_scan_to_file(so_path, output_path):
+    if not os.path.exists(so_path):
+        print(f"[-] File {so_path} tidak ditemukan!")
+        return
+
+    # Target pencarian yang lebih spesifik untuk v5.39
+    targets = [
+        b"type2", b"beta", b"maint", b"nls", b"epp",
+        b"fhash", b"klv", b"wf", b"f|", b"Version", b"v|"
+    ]
+
+    print(f"[*] Memulai pemindaian mendalam pada {so_path}...")
+
+    with open(so_path, "rb") as f_in, open(output_path, "w") as f_out:
+        content = f_in.read()
+        f_out.write(f"=== HASIL DEEP SCAN PROTOKOL v5.39 ===\n\n")
+
+        for target in targets:
+            offsets = [m.start() for m in re.finditer(target, content)]
+            f_out.write(f"\n[TARGET: {target.decode()}] - Ditemukan {len(offsets)} kali\n")
+            f_out.write("-" * 50 + "\n")
+
+            for off in offsets:
+                # Mengambil context 30 byte sebelum dan sesudah offset
+                start = max(0, off - 30)
+                end = min(len(content), off + len(target) + 30)
+                context_raw = content[start:end]
+
+                # Membersihkan biner agar bisa dibaca sebagai teks (jika memungkinkan)
+                readable_context = "".join([chr(b) if 32 <= b <= 126 else "." for b in context_raw])
+
+                f_out.write(f"Offset: {hex(off)} | Context: {readable_context}\n")
+                f_out.write(f"Biner: {context_raw.hex(' ')}\n\n")
+
+    print(f"[OK] Pemindaian selesai! Semua hasil disimpan di: {output_path}")
+
+if __name__ == "__main__":
+    deep_scan_to_file("libgrowtopia.so", "hasil_scan.txt")
