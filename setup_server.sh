@@ -13,6 +13,12 @@ echo "Installing dependencies..."
 pkg update -y && pkg upgrade -y
 pkg install -y git nodejs python make clang build-essential
 
+# Ensure we have pnpm (globally) and it's version 9 compatible
+if ! command -v pnpm &> /dev/null; then
+    echo "Installing pnpm globally..."
+    npm install -g pnpm@9
+fi
+
 if [ -d "$DIR_NAME" ]; then
     echo "Directory $DIR_NAME already exists. Please remove it or rename it."
     exit 1
@@ -23,6 +29,21 @@ git clone "$REPO_URL" "$DIR_NAME"
 cd "$DIR_NAME"
 
 echo "Modifying files for SQLite..."
+
+# 0. REMOVE packageManager field from root package.json to prevent Corepack errors
+# This fixes the "Failed to switch pnpm" error in Termux
+node -e "
+const fs = require('fs');
+const pkgPath = 'package.json';
+if (fs.existsSync(pkgPath)) {
+  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  if (pkg.packageManager) {
+    delete pkg.packageManager;
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
+    console.log('Removed packageManager field from root package.json');
+  }
+}
+"
 
 # 1. Update packages/db/package.json dependencies
 # Use node to reliably edit package.json
@@ -92,6 +113,7 @@ export class Database {
 EOF
 
 # 4. Update packages/db/shared/schemas/Player.ts
+# Using { mode: "json" } for object/array fields
 cat << 'EOF' > packages/db/shared/schemas/Player.ts
 import { InferSelectModel, sql } from "drizzle-orm";
 import { text, integer, sqliteTable } from "drizzle-orm/sqlite-core";
@@ -106,12 +128,12 @@ export const players = sqliteTable("players", {
   gems: integer("gems").default(0),
   level: integer("level").default(0),
   exp: integer("exp").default(0),
-  clothing: text("clothing"),
-  inventory: text("inventory"),
-  last_visited_worlds: text("last_visited_worlds"),
+  clothing: text("clothing", { mode: "json" }),
+  inventory: text("inventory", { mode: "json" }),
+  last_visited_worlds: text("last_visited_worlds", { mode: "json" }),
   created_at: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
   updated_at: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
-  heart_monitors: text("heart_monitors").notNull(),
+  heart_monitors: text("heart_monitors", { mode: "json" }).notNull(),
 });
 
 export type Players = InferSelectModel<typeof players>;
@@ -120,6 +142,7 @@ export const selectUserSchema = createSelectSchema(players);
 EOF
 
 # 5. Update packages/db/shared/schemas/World.ts
+# Using { mode: "json" } for object/array fields
 cat << 'EOF' > packages/db/shared/schemas/World.ts
 import { InferSelectModel, sql } from "drizzle-orm";
 import { text, integer, sqliteTable } from "drizzle-orm/sqlite-core";
@@ -131,8 +154,8 @@ export const worlds = sqliteTable("worlds", {
   ownedBy: integer("ownedBy"),
   width: integer("width").notNull(),
   height: integer("height").notNull(),
-  blocks: text("blocks"),
-  dropped: text("dropped"),
+  blocks: text("blocks", { mode: "json" }),
+  dropped: text("dropped", { mode: "json" }),
   weather_id: integer("weather_id").default(41),
   created_at: text("created_at").default(sql`(CURRENT_TIMESTAMP)`),
   updated_at: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`),
@@ -145,6 +168,7 @@ export const selectWorldSchema = createSelectSchema(worlds);
 EOF
 
 # 6. Update packages/db/handlers/Player.ts
+# Removing manual JSON.stringify since Drizzle handles it with mode: 'json'
 cat << 'EOF' > packages/db/handlers/Player.ts
 import { type BetterSqlite3Database } from "drizzle-orm/better-sqlite3";
 import { eq, sql, like } from "drizzle-orm";
@@ -202,7 +226,7 @@ export class PlayerDB {
         name: name.toLowerCase(),
         password: hashPassword,
         role: ROLE.BASIC,
-        heart_monitors: JSON.stringify({}),
+        heart_monitors: {},
       })
       .returning({ id: players.id });
 
@@ -219,14 +243,14 @@ export class PlayerDB {
         name: data.name,
         display_name: data.displayName,
         role: data.role,
-        inventory: JSON.stringify(data.inventory),
-        clothing: JSON.stringify(data.clothing),
+        inventory: data.inventory,
+        clothing: data.clothing,
         gems: data.gems,
         level: data.level,
         exp: data.exp,
-        last_visited_worlds: JSON.stringify(data.lastVisitedWorlds),
+        last_visited_worlds: data.lastVisitedWorlds,
         updated_at: new Date().toISOString().slice(0, 19).replace("T", " "),
-        heart_monitors: JSON.stringify(Object.fromEntries(data.heartMonitors)),
+        heart_monitors: Object.fromEntries(data.heartMonitors),
       })
       .where(eq(players.id, data.userID))
       .returning({ id: players.id });
@@ -238,6 +262,7 @@ export class PlayerDB {
 EOF
 
 # 7. Update packages/db/handlers/World.ts
+# Removing manual JSON.stringify since Drizzle handles it with mode: 'json'
 cat << 'EOF' > packages/db/handlers/World.ts
 import { type BetterSqlite3Database } from "drizzle-orm/better-sqlite3";
 import { eq, sql } from "drizzle-orm";
@@ -284,8 +309,8 @@ export class WorldDB {
         ownedBy: worldLockData?.ownerUserID ?? null,
         width: data.width,
         height: data.height,
-        blocks: JSON.stringify(data.blocks),
-        dropped: JSON.stringify(data.dropped),
+        blocks: data.blocks,
+        dropped: data.dropped,
         updated_at: new Date().toISOString().slice(0, 19).replace("T", " "),
         weather_id: data.weather.id,
         worldlock_index: data.worldLockIndex,
@@ -309,8 +334,8 @@ export class WorldDB {
         ownedBy: worldLockData?.ownerUserID ?? null,
         width: data.width,
         height: data.height,
-        blocks: JSON.stringify(data.blocks),
-        dropped: JSON.stringify(data.dropped),
+        blocks: data.blocks,
+        dropped: data.dropped,
         updated_at: new Date().toISOString().slice(0, 19).replace("T", " "),
         weather_id: data.weather.id,
       })
@@ -341,11 +366,6 @@ fi
 
 echo "Files modified successfully."
 echo "Installing NPM dependencies..."
-
-# Use pnpm if available, else install it
-if ! command -v pnpm &> /dev/null; then
-    npm install -g pnpm
-fi
 
 pnpm install
 
