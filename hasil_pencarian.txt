@@ -1,0 +1,292 @@
+Target: Version | Offset: 0x7ffa8
+Context (Hex): 5f 4c 69 62 72 61 72 79 00 46 54 5f 4c 69 62 72 61 72 79 5f 56 65 72 73 69 6f 6e 00 46 54 5f 44 6f 6e 65 5f 4c 69 62 72 61 72 79 00 46 54 5f
+Context (Text): _Library.FT_Library_Version.FT_Done_Library.FT_
+----------------------------------------
+Target: Version | Offset: 0x94ee7
+Context (Hex): 6b 45 45 44 32 45 76 00 5f 5a 4e 33 52 6d 6c 31 30 47 65 74 56 65 72 73 69 6f 6e 45 76 00 5f 5a 4e 33 52 6d 6c 31 36 47 65 74 46 69 6c 65 49
+Context (Text): kEED2Ev._ZN3Rml10GetVersionEv._ZN3Rml16GetFileI
+----------------------------------------
+Target: Version | Offset: 0x11162f
+Context (Hex): 45 6e 67 69 6e 65 49 6e 74 65 72 66 61 63 65 31 30 47 65 74 56 65 72 73 69 6f 6e 45 6d 00 5f 5a 4e 33 52 6d 6c 31 39 46 6f 6e 74 45 6e 67 69
+Context (Text): EngineInterface10GetVersionEm._ZN3Rml19FontEngi
+----------------------------------------
+Target: Version | Offset: 0x1839d7
+Context (Hex): 6e 74 65 72 66 61 63 65 44 65 66 61 75 6c 74 31 30 47 65 74 56 65 72 73 69 6f 6e 45 6d 00 5f 5a 4e 33 52 6d 6c 32 36 46 6f 6e 74 45 6e 67 69
+Context (Text): nterfaceDefault10GetVersionEm._ZN3Rml26FontEngi
+----------------------------------------
+Target: Version | Offset: 0x183e4d
+Context (Hex): 63 65 48 61 6e 64 6c 65 44 65 66 61 75 6c 74 31 30 47 65 74 56 65 72 73 69 6f 6e 45 76 00 5f 5a 4e 33 52 6d 6c 31 32 46 6f 6e 74 50 72 6f 76
+Context (Text): ceHandleDefault10GetVersionEv._ZN3Rml12FontProv
+----------------------------------------
+Target: Version | Offset: 0x1aeffa
+Context (Hex): 79 45 00 5f 5a 4e 34 62 67 66 78 31 36 77 69 6e 64 6f 77 73 56 65 72 73 69 6f 6e 49 73 45 4e 53 5f 39 43 6f 6e 64 69 74 69 6f 6e 34 45 6e 75
+Context (Text): yE._ZN4bgfx16windowsVersionIsENS_9Condition4Enu
+----------------------------------------
+Target: Version | Offset: 0x1b95ab
+Context (Hex): 36 76 6b 45 6e 75 6d 65 72 61 74 65 49 6e 73 74 61 6e 63 65 56 65 72 73 69 6f 6e 45 00 5f 5a 4e 34 62 67 66 78 32 76 6b 31 37 76 6b 44 65 73
+Context (Text): 6vkEnumerateInstanceVersionE._ZN4bgfx2vk17vkDes
+----------------------------------------
+Target: type2 | Offset: 0x6adaa1
+Context (Hex): 53 41 5f 73 69 67 6e 5f 73 65 74 75 70 00 65 63 6b 65 79 5f 74 79 70 65 32 70 61 72 61 6d 00 65 63 5f 47 46 70 5f 73 69 6d 70 6c 65 5f
+Context (Text): SA_sign_setup.eckey_type2param.ec_GFp_simple_
+----------------------------------------
+Target: beta | Offset: 0x6cd3f4
+Context (Hex): 6f 70 69 61 67 61 6d 65 2e 63 6f 6d 20 6e 6f 77 60 60 3f 00 62 65 74 61 5f 6c 6f 67 69 6e 75 72 6c 00 47 65 74 20 65 78 74 65 72 6e
+Context (Text): opiagame.com now``?.beta_loginurl.Get extern
+----------------------------------------
+Target: beta | Offset: 0x6d8705
+Context (Hex): 45 52 5f 41 47 45 00 52 65 71 75 65 73 74 4c 6f 67 6f 6e 00 62 65 74 61 5f 73 65 72 76 65 72 00 62 65 74 61 32 5f 6d 61 69 6e 74 00
+Context (Text): ER_AGE.RequestLogon.beta_server.beta2_maint.
+----------------------------------------
+Target: beta | Offset: 0x6d8711
+Context (Hex): 73 74 4c 6f 67 6f 6e 00 62 65 74 61 5f 73 65 72 76 65 72 00 62 65 74 61 32 5f 6d 61 69 6e 74 00 62 65 74 61 32 5f 74 79 70 65 00 56
+Context (Text): stLogon.beta_server.beta2_maint.beta2_type.V
+----------------------------------------
+Target: beta | Offset: 0x6d871d
+Context (Hex): 5f 73 65 72 76 65 72 00 62 65 74 61 32 5f 6d 61 69 6e 74 00 62 65 74 61 32 5f 74 79 70 65 00 56 61 6c 69 64 61 74 65 20 74 6f 6b 65
+Context (Text): _server.beta2_maint.beta2_type.Validate toke
+----------------------------------------
+Target: beta | Offset: 0x6ddf54
+Context (Hex): 67 65 00 55 70 64 61 74 65 20 47 72 6f 77 74 6f 70 69 61 00 62 65 74 61 32 5f 73 65 72 76 65 72 00 62 65 74 61 33 5f 73 65 72 76 65
+Context (Text): ge.Update Growtopia.beta2_server.beta3_serve
+----------------------------------------
+Target: beta | Offset: 0x6ddf61
+Context (Hex): 77 74 6f 70 69 61 00 62 65 74 61 32 5f 73 65 72 76 65 72 00 62 65 74 61 33 5f 73 65 72 76 65 72 00 4f 6e 65 20 6f 66 20 6d 61 6e 64
+Context (Text): wtopia.beta2_server.beta3_server.One of mand
+----------------------------------------
+Target: beta | Offset: 0x6e13c9
+Context (Hex): 3a 61 74 3a 20 6b 65 79 20 6e 6f 74 20 66 6f 75 6e 64 00 5f 62 65 74 61 00 54 72 61 63 6b 69 6e 67 53 74 61 74 75 73 00 54 61 62 43
+Context (Text): :at: key not found._beta.TrackingStatus.TabC
+----------------------------------------
+Target: beta | Offset: 0x6e8b9e
+Context (Hex): 00 65 75 6c 61 00 60 60 20 62 79 20 60 77 00 68 74 74 70 00 62 65 74 61 5f 6d 61 69 6e 74 00 73 74 61 74 75 73 00 57 65 62 20 43 61
+Context (Text): .eula.`` by `w.http.beta_maint.status.Web Ca
+----------------------------------------
+Target: beta | Offset: 0x6e8c70
+Context (Hex): 53 45 54 54 49 4e 47 00 63 6c 6f 73 65 00 55 73 69 6e 67 20 62 65 74 61 20 66 69 6c 65 73 00 63 68 65 63 6b 5f 61 64 64 4a 75 6d 70
+Context (Text): SETTING.close.Using beta files.check_addJump
+----------------------------------------
+Target: maint | Offset: 0x6d8717
+Context (Hex): 6e 00 62 65 74 61 5f 73 65 72 76 65 72 00 62 65 74 61 32 5f 6d 61 69 6e 74 00 62 65 74 61 32 5f 74 79 70 65 00 56 61 6c 69 64 61 74 65
+Context (Text): n.beta_server.beta2_maint.beta2_type.Validate
+----------------------------------------
+Target: maint | Offset: 0x6d9985
+Context (Hex): 4e 41 4e 43 45 20 77 68 69 6c 65 20 61 6e 6f 74 68 65 72 20 6d 61 69 6e 74 65 6e 61 6e 63 65 20 70 65 72 69 6f 64 20 69 73 20 70 65 6e
+Context (Text): NANCE while another maintenance period is pen
+----------------------------------------
+Target: maint | Offset: 0x6e8ba3
+Context (Hex): 00 60 60 20 62 79 20 60 77 00 68 74 74 70 00 62 65 74 61 5f 6d 61 69 6e 74 00 73 74 61 74 75 73 00 57 65 62 20 43 61 6e 63 65 6c 00 49
+Context (Text): .`` by `w.http.beta_maint.status.Web Cancel.I
+----------------------------------------
+Target: maint | Offset: 0x6f030a
+Context (Hex): 74 20 43 6f 6e 6e 65 63 74 69 6f 6e 20 64 75 65 20 74 6f 20 6d 61 69 6e 74 65 6e 61 6e 63 65 00 4e 6f 74 69 66 69 63 61 74 69 6f 6e 52
+Context (Text): t Connection due to maintenance.NotificationR
+----------------------------------------
+Target: fhash | Offset: 0x6dddcb
+Context (Hex): 69 74 73 7c 00 64 65 76 69 63 65 56 65 72 73 69 6f 6e 7c 00 66 68 61 73 68 7c 00 6b 6c 76 7c 00 61 75 64 69 6f 2f 6d 70 33 2f 74 68 65
+Context (Text): its|.deviceVersion|.fhash|.klv|.audio/mp3/the
+----------------------------------------
+Target: klv | Offset: 0x6dddd2
+Context (Hex): 76 69 63 65 56 65 72 73 69 6f 6e 7c 00 66 68 61 73 68 7c 00 6b 6c 76 7c 00 61 75 64 69 6f 2f 6d 70 33 2f 74 68 65 6d 65 34 2e 6d
+Context (Text): viceVersion|.fhash|.klv|.audio/mp3/theme4.m
+----------------------------------------
+Target: Version | Offset: 0x6ac668
+Context (Hex): 6f 61 64 61 62 6c 65 43 6f 6e 74 65 6e 74 00 75 73 53 64 6b 56 65 72 73 69 6f 6e 00 55 3a 2f 47 52 4f 57 2f 45 78 74 65 72 6e 61 6c 4c 69 62
+Context (Text): oadableContent.usSdkVersion.U:/GROW/ExternalLib
+----------------------------------------
+Target: Version | Offset: 0x6c2198
+Context (Hex): 5f 6d 61 72 6b 65 74 69 6e 67 5f 69 64 7c 5e 5e 00 73 75 62 56 65 72 73 69 6f 6e 7c 57 6f 72 6c 64 4c 61 75 6e 63 68 0a 00 75 6e 73 65 6e 74
+Context (Text): _marketing_id|^^.subVersion|WorldLaunch..unsent
+----------------------------------------
+Target: Version | Offset: 0x6c7080
+Context (Hex): 53 00 5b 49 74 65 6d 49 6e 66 6f 4d 61 6e 61 67 65 72 5d 20 56 65 72 73 69 6f 6e 20 3d 20 7b 7d 2c 20 69 74 65 6d 43 6f 75 6e 74 20 3d 20 7b
+Context (Text): S.[ItemInfoManager] Version = {}, itemCount = {
+----------------------------------------
+Target: Version | Offset: 0x6d39a2
+Context (Hex): 20 53 44 4b 20 69 6e 74 65 67 65 72 20 66 6f 72 20 4f 53 20 56 65 72 73 69 6f 6e 2e 20 55 73 69 6e 67 20 27 00 4a 6f 62 41 70 70 6c 79 44 79
+Context (Text):  SDK integer for OS Version. Using '.JobApplyDy
+----------------------------------------
+Target: Version | Offset: 0x6dddc2
+Context (Hex): 6f 6e 74 65 78 74 00 63 62 69 74 73 7c 00 64 65 76 69 63 65 56 65 72 73 69 6f 6e 7c 00 66 68 61 73 68 7c 00 6b 6c 76 7c 00 61 75 64 69 6f 2f
+Context (Text): ontext.cbits|.deviceVersion|.fhash|.klv|.audio/
+----------------------------------------
+Target: Version | Offset: 0x6e2ffc
+Context (Hex): 3e 00 42 53 4f 4e 00 57 6f 72 6c 64 3a 3a 4c 6f 61 64 3a 20 56 65 72 73 69 6f 6e 20 25 64 2e 20 66 3a 20 25 64 2c 20 4e 61 6d 65 3a 20 25 73
+Context (Text): >.BSON.World::Load: Version %d. f: %d, Name: %s
+----------------------------------------
+Target: Version | Offset: 0x6e3751
+Context (Hex): 2e 60 60 00 44 6f 77 6e 6c 6f 61 64 20 4c 61 74 65 73 74 20 56 65 72 73 69 6f 6e 00 73 68 6f 77 2d 77 69 6e 64 6f 77 00 20 59 6f 75 20 61 6c
+Context (Text): .``.Download Latest Version.show-window. You al
+----------------------------------------
+Target: Version | Offset: 0x6e55ba
+Context (Hex): 43 52 41 4d 2d 4d 44 35 00 4c 4f 47 49 4e 00 4d 69 6d 65 2d 56 65 72 73 69 6f 6e 3a 20 31 2e 30 00 43 6f 6e 6e 65 63 74 69 6f 6e 20 23 25 6c
+Context (Text): CRAM-MD5.LOGIN.Mime-Version: 1.0.Connection #%l
+----------------------------------------
+Target: Version | Offset: 0x6e899c
+Context (Hex): 67 00 54 72 61 64 65 20 63 61 6e 63 65 6c 65 64 00 47 65 74 56 65 72 73 69 6f 6e 53 74 72 69 6e 67 00 61 75 64 69 6f 2f 74 69 70 5f 73 74 61
+Context (Text): g.Trade canceled.GetVersionString.audio/tip_sta
+----------------------------------------
+Target: Version | Offset: 0x6e9780
+Context (Hex): 6e 74 73 00 46 44 42 79 74 65 73 00 70 63 66 00 49 52 56 00 56 65 72 73 69 6f 6e 00 57 58 00 72 61 73 74 65 72 31 00 73 76 67 2d 68 6f 6f 6b
+Context (Text): nts.FDBytes.pcf.IRV.Version.WX.raster1.svg-hook
+----------------------------------------
+Target: Version | Offset: 0x6eb916
+Context (Hex): 72 67 61 6e 69 7a 61 74 69 6f 6e 00 64 6f 63 75 6d 65 6e 74 56 65 72 73 69 6f 6e 00 73 65 74 63 74 2d 48 4f 44 49 6e 70 75 74 00 73 65 74 63
+Context (Text): rganization.documentVersion.setct-HODInput.setc
+----------------------------------------
+Target: Version | Offset: 0x6ef893
+Context (Hex): 63 65 65 64 20 00 53 65 63 2d 57 65 62 53 6f 63 6b 65 74 2d 56 65 72 73 69 6f 6e 00 43 6f 6e 6e 65 63 74 69 6f 6e 3a 20 6b 65 65 70 2d 61 6c
+Context (Text): ceed .Sec-WebSocket-Version.Connection: keep-al
+----------------------------------------
+Target: Version | Offset: 0x6eff13
+Context (Hex): 75 72 72 65 6e 74 50 72 6f 66 69 6c 65 49 64 00 67 61 6d 65 56 65 72 73 69 6f 6e 00 4a 6f 62 53 74 61 72 74 45 76 65 6e 74 53 65 73 73 69 6f
+Context (Text): urrentProfileId.gameVersion.JobStartEventSessio
+----------------------------------------
+Target: Version | Offset: 0x6f1d97
+Context (Hex): 2d 62 69 74 20 2f 20 41 6e 64 72 6f 69 64 20 32 34 20 2f 20 56 65 72 73 69 6f 6e 20 31 2e 25 64 2e 25 64 20 28 63 6f 6d 6d 69 74 3a 20 64 63
+Context (Text): -bit / Android 24 / Version 1.%d.%d (commit: dc
+----------------------------------------
+Target: Version | Offset: 0x6f26a9
+Context (Hex): 74 61 74 69 63 42 6c 75 65 46 72 61 6d 65 00 47 65 74 4f 53 56 65 72 73 69 6f 6e 00 4e 61 6d 65 00 54 53 00 62 75 74 74 6f 6e 54 65 6d 70 6c
+Context (Text): taticBlueFrame.GetOSVersion.Name.TS.buttonTempl
+----------------------------------------
+Target: Version | Offset: 0x6f6700
+Context (Hex): 61 6e 64 20 66 61 69 6c 65 64 3a 20 25 64 00 4d 69 6d 65 2d 56 65 72 73 69 6f 6e 00 6c 6f 67 69 6e 00 45 6e 74 72 79 20 70 61 74 68 20 69 73
+Context (Text): and failed: %d.Mime-Version.login.Entry path is
+----------------------------------------
+Target: beta | Offset: 0x70c908
+Context (Hex): 30 32 64 3a 25 30 32 64 3a 25 30 32 64 00 25 6c 6c 75 00 5f 62 65 74 61 5f 63 6e 00 52 65 63 65 69 76 65 64 20 61 20 72 65 64 69 72
+Context (Text): 02d:%02d:%02d.%llu._beta_cn.Received a redir
+----------------------------------------
+Target: beta | Offset: 0x7113e5
+Context (Hex): 66 61 6b 69 6e 67 20 2e 70 68 70 20 6c 6f 61 64 20 74 6f 00 62 65 74 61 5f 70 6f 72 74 00 62 65 74 61 33 5f 74 79 70 65 00 4c 6f 63
+Context (Text): faking .php load to.beta_port.beta3_type.Loc
+----------------------------------------
+Target: beta | Offset: 0x7113ef
+Context (Hex): 70 20 6c 6f 61 64 20 74 6f 00 62 65 74 61 5f 70 6f 72 74 00 62 65 74 61 33 5f 74 79 70 65 00 4c 6f 63 61 74 65 64 20 60 35 62 65 74
+Context (Text): p load to.beta_port.beta3_type.Located `5bet
+----------------------------------------
+Target: beta | Offset: 0x711404
+Context (Hex): 65 74 61 33 5f 74 79 70 65 00 4c 6f 63 61 74 65 64 20 60 35 62 65 74 61 32 20 73 65 72 76 65 72 60 60 2c 20 63 6f 6e 6e 65 63 74 69
+Context (Text): eta3_type.Located `5beta2 server``, connecti
+----------------------------------------
+Target: beta | Offset: 0x71c6ed
+Context (Hex): 20 6c 6f 61 64 3a 20 25 64 00 52 65 63 6f 6e 6e 65 63 74 00 62 65 74 61 32 5f 70 6f 72 74 00 62 65 74 61 33 5f 70 6f 72 74 00 73 68
+Context (Text):  load: %d.Reconnect.beta2_port.beta3_port.sh
+----------------------------------------
+Target: beta | Offset: 0x71c6f8
+Context (Hex): 65 63 6f 6e 6e 65 63 74 00 62 65 74 61 32 5f 70 6f 72 74 00 62 65 74 61 33 5f 70 6f 72 74 00 73 68 6f 77 63 61 70 74 63 68 61 00 68
+Context (Text): econnect.beta2_port.beta3_port.showcaptcha.h
+----------------------------------------
+Target: beta | Offset: 0x73e87e
+Context (Hex): 72 65 73 73 60 60 2e 2e 2e 00 4c 6f 63 61 74 65 64 20 60 35 62 65 74 61 33 20 73 65 72 76 65 72 60 60 2c 20 63 6f 6e 6e 65 63 74 69
+Context (Text): ress``....Located `5beta3 server``, connecti
+----------------------------------------
+Target: beta | Offset: 0x743a68
+Context (Hex): 79 20 74 6f 20 6c 6f 67 69 6e 20 61 67 61 69 6e 2e 60 60 00 62 65 74 61 5f 74 79 70 65 00 62 65 74 61 32 5f 6c 6f 67 69 6e 75 72 6c
+Context (Text): y to login again.``.beta_type.beta2_loginurl
+----------------------------------------
+Target: beta | Offset: 0x743a72
+Context (Hex): 20 61 67 61 69 6e 2e 60 60 00 62 65 74 61 5f 74 79 70 65 00 62 65 74 61 32 5f 6c 6f 67 69 6e 75 72 6c 00 47 65 74 20 75 6e 6b 6e 6f
+Context (Text):  again.``.beta_type.beta2_loginurl.Get unkno
+----------------------------------------
+Target: beta | Offset: 0x74ec22
+Context (Hex): 20 61 72 65 20 6e 6f 74 20 75 73 69 6e 67 20 56 50 4e 2e 00 62 65 74 61 33 5f 6d 61 69 6e 74 00 60 34 44 75 72 69 6e 67 20 6c 6f 67
+Context (Text):  are not using VPN..beta3_maint.`4During log
+----------------------------------------
+Target: beta | Offset: 0x7546ed
+Context (Hex): 70 73 00 43 6f 6e 74 69 6e 75 65 4c 6f 67 69 6e 42 74 6e 00 62 65 74 61 33 5f 6c 6f 67 69 6e 75 72 6c 00 46 61 69 6c 20 74 6f 20 70
+Context (Text): ps.ContinueLoginBtn.beta3_loginurl.Fail to p
+----------------------------------------
+Target: beta | Offset: 0x759c41
+Context (Hex): 20 61 67 61 69 6e 2e 60 60 00 4c 6f 63 61 74 65 64 20 60 35 62 65 74 61 20 73 65 72 76 65 72 60 60 2c 20 63 6f 6e 6e 65 63 74 69 6e
+Context (Text):  again.``.Located `5beta server``, connectin
+----------------------------------------
+Target: maint | Offset: 0x72e6fd
+Context (Hex): 69 73 20 69 6e 76 61 6c 69 64 2e 20 20 4a 73 6f 6e 3a 20 00 6d 61 69 6e 74 65 6e 61 6e 63 65 45 6e 64 73 41 74 00 55 53 5f 4e 4f 54 49
+Context (Text): is invalid.  Json: .maintenanceEndsAt.US_NOTI
+----------------------------------------
+Target: maint | Offset: 0x735aba
+Context (Hex): 61 62 69 6c 69 74 69 65 73 4b 48 52 00 56 4b 5f 4b 48 52 5f 6d 61 69 6e 74 65 6e 61 6e 63 65 31 00 76 6b 43 6d 64 53 65 74 53 63 69 73
+Context (Text): abilitiesKHR.VK_KHR_maintenance1.vkCmdSetScis
+----------------------------------------
+Target: maint | Offset: 0x74ec28
+Context (Hex): 6f 74 20 75 73 69 6e 67 20 56 50 4e 2e 00 62 65 74 61 33 5f 6d 61 69 6e 74 00 60 34 44 75 72 69 6e 67 20 6c 6f 67 69 6e 20 72 65 71 75
+Context (Text): ot using VPN..beta3_maint.`4During login requ
+----------------------------------------
+Target: maint | Offset: 0x75b2d3
+Context (Hex): 45 20 72 65 63 65 69 76 65 64 2f 70 65 6e 64 69 6e 67 2e 00 6d 61 69 6e 74 65 6e 61 6e 63 65 53 74 61 72 74 73 41 74 00 46 61 69 6c 65
+Context (Text): E received/pending..maintenanceStartsAt.Faile
+----------------------------------------
+Target: Version | Offset: 0x701349
+Context (Hex): 65 76 65 6e 74 3a 20 00 73 76 2d 53 45 00 22 75 73 53 64 6b 56 65 72 73 69 6f 6e 22 3a 22 00 55 62 69 2d 6c 6f 63 61 6c 65 43 6f 64 65 00 67
+Context (Text): event: .sv-SE."usSdkVersion":".Ubi-localeCode.g
+----------------------------------------
+Target: Version | Offset: 0x705f11
+Context (Hex): 65 67 69 6e 46 6f 6e 74 44 69 63 74 00 43 49 44 46 6f 6e 74 56 65 72 73 69 6f 6e 00 47 44 42 79 74 65 73 00 46 6f 72 63 65 42 6f 6c 64 54 68
+Context (Text): eginFontDict.CIDFontVersion.GDBytes.ForceBoldTh
+----------------------------------------
+Target: Version | Offset: 0x70ede8
+Context (Hex): 00 76 6b 45 6e 75 6d 65 72 61 74 65 49 6e 73 74 61 6e 63 65 56 65 72 73 69 6f 6e 00 76 6b 44 65 73 74 72 6f 79 53 61 6d 70 6c 65 72 00 76 6b
+Context (Text): .vkEnumerateInstanceVersion.vkDestroySampler.vk
+----------------------------------------
+Target: Version | Offset: 0x7123e6
+Context (Hex): 71 75 65 73 74 54 6f 6b 65 6e 00 55 53 00 65 6e 00 73 64 6b 56 65 72 73 69 6f 6e 00 43 6f 75 6c 64 27 6e 20 66 69 6e 64 20 52 65 6d 6f 74 65
+Context (Text): questToken.US.en.sdkVersion.Could'n find Remote
+----------------------------------------
+Target: Version | Offset: 0x712c5a
+Context (Hex): 6f 66 20 65 76 65 6e 74 73 2e 00 65 6c 00 22 62 75 69 6c 64 56 65 72 73 69 6f 6e 22 3a 22 00 22 67 61 6d 65 56 65 72 73 69 6f 6e 22 3a 22 00
+Context (Text): of events..el."buildVersion":"."gameVersion":".
+----------------------------------------
+Target: Version | Offset: 0x712c6a
+Context (Hex): 75 69 6c 64 56 65 72 73 69 6f 6e 22 3a 22 00 22 67 61 6d 65 56 65 72 73 69 6f 6e 22 3a 22 00 5d 20 74 6f 20 74 68 65 20 6e 6f 74 69 66 69 63
+Context (Text): uildVersion":"."gameVersion":".] to the notific
+----------------------------------------
+Target: Version | Offset: 0x71888b
+Context (Hex): 68 61 73 65 00 6d 65 6e 75 4c 61 6e 67 75 61 67 65 00 6f 73 56 65 72 73 69 6f 6e 00 67 61 6d 65 43 6f 6e 74 65 6e 74 73 00 4a 6f 62 52 65 71
+Context (Text): hase.menuLanguage.osVersion.gameContents.JobReq
+----------------------------------------
+Target: Version | Offset: 0x71a35f
+Context (Hex): 23 76 65 72 73 69 6f 6e 20 34 33 30 0a 00 20 20 20 20 20 20 56 65 72 73 69 6f 6e 3a 20 25 73 20 00 20 25 36 64 20 20 00 45 58 54 5f 66 72 61
+Context (Text): #version 430..      Version: %s . %6d  .EXT_fra
+----------------------------------------
+Target: Version | Offset: 0x71c437
+Context (Hex): 6c 61 79 74 69 6d 65 7c 00 4e 6f 20 64 65 66 61 75 6c 74 20 56 65 72 73 69 6f 6e 00 4c 6f 67 69 6e 41 63 63 6f 75 6e 74 41 67 65 54 79 70 65
+Context (Text): laytime|.No default Version.LoginAccountAgeType
+----------------------------------------
+Target: Version | Offset: 0x71d55f
+Context (Hex): 75 69 6c 64 20 76 65 72 73 69 6f 6e 20 66 6f 72 20 4f 53 20 56 65 72 73 69 6f 6e 2e 20 55 73 69 6e 67 20 27 00 61 6e 64 72 6f 69 64 2f 63 6f
+Context (Text): uild version for OS Version. Using '.android/co
+----------------------------------------
+Target: Version | Offset: 0x7229c1
+Context (Hex): 2a 20 47 61 6d 65 53 74 61 72 74 45 76 65 6e 74 47 61 6d 65 56 65 72 73 69 6f 6e 3a 20 00 75 62 69 73 65 72 76 69 63 65 73 3a 3a 48 74 74 70
+Context (Text): * GameStartEventGameVersion: .ubiservices::Http
+----------------------------------------
+Target: Version | Offset: 0x73355b
+Context (Hex): 53 65 72 76 69 63 65 20 55 6e 61 76 61 69 6c 61 62 6c 65 00 56 65 72 73 69 6f 6e 20 4e 6f 74 20 53 75 70 70 6f 72 74 65 64 00 48 74 74 70 52
+Context (Text): Service Unavailable.Version Not Supported.HttpR
+----------------------------------------
+Target: Version | Offset: 0x739ab0
+Context (Hex): 74 73 20 64 65 66 69 6e 69 74 69 6f 6e 2e 00 62 75 69 6c 64 56 65 72 73 69 6f 6e 00 6e 62 00 70 6c 00 75 62 69 73 65 72 76 69 63 65 73 3a 3a
+Context (Text): ts definition..buildVersion.nb.pl.ubiservices::
+----------------------------------------
+Target: Version | Offset: 0x746a86
+Context (Hex): 64 20 62 6f 6f 6c 65 61 6e 20 73 74 72 69 6e 67 00 25 2a 73 56 65 72 73 69 6f 6e 3a 20 25 6c 64 20 28 30 78 25 6c 58 29 00 69 61 35 6f 72 67
+Context (Text): d boolean string.%*sVersion: %ld (0x%lX).ia5org
+----------------------------------------
+Target: Version | Offset: 0x74fd8b
+Context (Hex): 74 69 6f 6e 73 53 69 67 6e 61 6c 2e 63 70 70 00 2c 22 6f 73 56 65 72 73 69 6f 6e 22 3a 22 00 4a 6f 62 51 75 65 75 65 41 6e 64 53 65 6e 64 45
+Context (Text): tionsSignal.cpp.,"osVersion":".JobQueueAndSendE
+----------------------------------------
+Target: Version | Offset: 0x751b5a
+Context (Hex): 30 39 76 33 2f 76 33 5f 65 78 74 6b 75 2e 63 00 0a 25 2a 73 56 65 72 73 69 6f 6e 20 20 20 3a 20 00 0a 25 2a 73 4c 6f 67 20 20 20 20 20 20 20
+Context (Text): 09v3/v3_extku.c..%*sVersion   : ..%*sLog
+----------------------------------------
+Target: Version | Offset: 0x759efd
+Context (Hex): 63 65 20 66 6c 6f 77 20 6e 6f 74 20 66 6f 75 6e 64 00 6f 73 56 65 72 73 69 6f 6e 7c 5e 5e 00 55 62 69 53 65 72 76 69 63 65 73 55 6e 73 65 6e
+Context (Text): ce flow not found.osVersion|^^.UbiServicesUnsen
+----------------------------------------
+Target: Version | Offset: 0x7f9a6c
+Context (Hex): 34 03 00 00 30 01 00 00 30 02 00 00 f0 00 00 00 24 4c 75 61 56 65 72 73 69 6f 6e 3a 20 4c 75 61 20 35 2e 34 2e 37 20 20 43 6f 70 79 72 69 67
+Context (Text): 4...0...0.......$LuaVersion: Lua 5.4.7  Copyrig
+----------------------------------------
