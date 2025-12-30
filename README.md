@@ -1,111 +1,71 @@
-![Example](/apps/server/assets/ignore/banner.png)
+# Tutorial Membuat Private Server Growtopia di Android (No Root)
 
-> A Growtopia private server built with Node.js and Bun.js, powered by [growtopia.js](https://github.com/JadlionHD/growtopia.js)
+Selamat datang! Repo ini berisi alat otomatis untuk membuat server Growtopia sendiri langsung di HP Android Anda menggunakan aplikasi **Termux**. Tidak perlu akses Root!
 
-> [!NOTE]
-> This source is not production ready yet. In the future it will be using a [Docker](#docker) to deploy the server, feel free to join [Discord Server](https://discord.gg/sGrxfKZY5t) to discuss regarding this.
+Server ini menggunakan base **GrowServer (StileDevs)** yang sudah dimodifikasi agar ringan dan menggunakan database **SQLite** (tidak perlu setup Postgres yang rumit).
 
-## Requirements
+## Persiapan Bahan
 
-- [Node.js](https://nodejs.org) v20+ or [Bun.js](https://bun.sh) v1.2.9+
-- [pnpm](https://pnpm.io) v10
-- [mkcert](https://github.com/FiloSottile/mkcert)
-- [docker](https://docker.com/)
-- [docker-compose](https://docs.docker.com/compose/) (required)
+1.  **Aplikasi Termux**: Download di PlayStore atau F-Droid.
+2.  **File `items.dat`**: Anda butuh file ini agar server mengenali item. Anda bisa mengambilnya dari folder game Growtopia asli di HP Anda (`Android/data/com.rtsoft.growtopia/files/items.dat`) atau download dari internet.
+    *   *Penting:* Letakkan file `items.dat` di folder yang sama dengan script ini nanti, atau ikuti instruksi script.
 
-## Setup
+## Langkah-Langkah Installasi
 
-To setup the server, first install necessary packages & settings by
+Buka aplikasi **Termux**, lalu ketik perintah-perintah di bawah ini satu per satu (tekan Enter setiap selesai mengetik satu baris):
 
-```
-$ pnpm install
-$ pnpm run setup
+### 1. Update Termux & Install Git
+```bash
+pkg update && pkg upgrade
+pkg install git
 ```
 
-And congrats setup are done, simple as that!
-Now you just need to run the server by
-
-> [!NOTE]
-> It must be running PostgreSQL & Redis in background by using docker, please navigate to [docker](#docker) guide
-
+### 2. Download Script Setup
+```bash
+git clone https://github.com/USERNAME_REPO_ANDA/NAMA_REPO_ANDA.git gtps-android
+cd gtps-android
 ```
-$ pnpm run dev
-```
+*(Ganti link di atas dengan link repository ini)*
 
-## Database
-
-Database that we moved to PostgreSQL from previous database SQLite.
-And for the ORM we are using [Drizzle-ORM](https://orm.drizzle.team/)
-
-To view the database you can run this command below:
-
-```
-$ pnpm run studio
+### 3. Jalankan Installer
+Pastikan Anda sudah menaruh file `items.dat` di folder ini jika ada. Lalu jalankan:
+```bash
+bash setup_server.sh
 ```
 
-and access it on here https://local.drizzle.studio/
+Tunggu prosesnya berjalan. Script ini akan otomatis:
+*   Mendownload source code server terbaru.
+*   Menginstall alat-alat yang dibutuhkan (NodeJS, Python, dll).
+*   Mengubah database ke SQLite agar ringan.
+*   Melakukan "Build" server.
 
-## Starting server
+Proses ini bisa memakan waktu 5-15 menit tergantung kecepatan internet dan HP Anda.
 
-To run the development server by
+## Cara Menyalakan Server
 
-```
-$ pnpm run start
-```
+Setelah instalasi selesai (muncul tulisan "Setup Complete!"), Anda bisa menyalakan server kapan saja dengan cara:
 
-## Development
+1.  Buka Termux.
+2.  Masuk ke folder server:
+    ```bash
+    cd gtps-android/GrowServer-Termux
+    ```
+3.  Nyalakan server:
+    ```bash
+    npm start
+    ```
 
-In order to make new login system work you need to install [mkcert](https://github.com/FiloSottile/mkcert) on this [download page](https://github.com/FiloSottile/mkcert/releases) (I'd recommend using [Lets encrypt](https://letsencrypt.org/getting-started/) for production only)
+Jika berhasil, akan muncul pesan bahwa server sudah berjalan di port **17091**.
 
-### Local CA installation
+## Cara Main (Menghubungkan ke Server)
 
-Install the mkcert local CA by
+1.  Edit file `hosts` di HP Anda (butuh aplikasi Virtual Hosts atau edit manual jika root) untuk mengarahkan `growtopia1.com` dan `growtopia2.com` ke IP HP Anda (biasanya `127.0.0.1` jika main di HP yang sama).
+2.  Buka Growtopia.
+3.  Login!
 
-```
-$ mkcert -install
-```
+## Tips Tambahan
 
-### Hosts
+*   **Database**: Data player tersimpan di file `packages/db/data/data.db`. Jangan hapus file ini.
+*   **Agar Termux tidak mati**: Saat menjalankan server, tarik notifikasi bar Termux dan pilih "Acquire Wakelock" agar server tidak mati saat layar HP mati.
 
-For the hosts file you can see this example below
-
-```
-127.0.0.1 www.growtopia1.com
-127.0.0.1 www.growtopia2.com
-127.0.0.1 login.growserver.app # New login system for development purposes
-```
-
-## Docker
-
-To run the dockerized & running it automatically just run
-
-```sh
-docker compose up -d
-```
-
-or you want to run the database & redis only (this were for development only) then simply running
-
-```sh
-docker compose up -d db redis
-```
-
-## Contributing
-
-Any contributions are welcome.
-
-There's few rules of contributing:
-
-- Code must match the existing code style. Please make sure to run `pnpm run lint` before submiting a PR.
-- The commit must take review first before merging into `main` branch.
-
-## Links
-
-- [Discord Server](https://discord.gg/sGrxfKZY5t)
-
-## Contributors
-
-Give a thumbs to these cool contributors:
-
-<a href="https://github.com/StileDevs/GrowServer">
-  <img src="https://contrib.rocks/image?repo=StileDevs/GrowServer"/>
-</a
+Selamat bermain!
